@@ -1,0 +1,55 @@
+ifndef verbose
+  SILENT = @
+endif
+
+
+SYSROOT=/home/hf/android-ndk-r8/platforms/android-14/arch-arm
+CC = /home/hf/android-ndk-r8/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/arm-linux-androideabi-gcc --sysroot=$(SYSROOT)
+CXX = /home/hf/android-ndk-r8/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/arm-linux-androideabi-g++ --sysroot=$(SYSROOT)
+AR = /home/hf/android-ndk-r8/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/arm-linux-androideabi-ar --sysroot=$(SYSROOT)
+
+#CC = ../toolchain/crosstools/bin/mipsel-linux-gcc
+#CXX = ../toolchain/crosstools/bin/mipsel-linux-g++
+#AR = ../toolchain/crosstools/bin/mipsel-linux-ar
+
+#CC = /home/andyhsieh/prj/Freescale/arm-eabi-4.4.0/bin/gcc/arm-eabi-gcc
+#CXX = /home/andyhsieh/prj/Freescale/arm-eabi-4.4.0/bin/arm-eabi-g++
+#AR = /home/andyhsieh/prj/Freescale/arm-eabi-4.4.0/bin/arm-eabi-ar
+
+#CC = arm-fsl-linux-gnueabi-gcc
+#CXX = arm-fsl-linux-gnueabi-g++
+#AR = arm-fsl-linux-gnueabi-ar
+#LIBS = -laituvc_fsl
+
+ifndef CC
+  CC = gcc
+endif
+
+ifndef CXX
+  CXX = g++
+endif
+
+ifndef AR
+  AR = ar
+endif
+
+TARGETDIR  =
+TARGET     = $(TARGETDIR)bin/VideoDevDump
+DEFINES    += -D_DEBUG -DDEBUG
+CPPFLAGS   += -MMD -MP $(DEFINES) $(INCLUDES)
+CFLAGS     += $(CPPFLAGS) $(ARCH) -Wall
+CXXFLAGS   += $(CFLAGS) -fno-rtti -fno-exceptions
+LDFLAGS    +=
+LIBS      += 
+RESFLAGS  += $(DEFINES) $(INCLUDES)
+LDDEPS    +=
+SRC	   = vm.cpp
+OBJECTS	   = vm.o
+
+all:
+	$(CXX) -c $(SRC) $(INCLUDES) $(CXXFLAGS)
+	$(CXX) -o $(TARGET) $(OBJECTS) -L./ $(LIBS)
+
+clean:
+	rm -f $(OBJECTS) $(TARGET)
+
